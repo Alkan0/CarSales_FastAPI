@@ -1,42 +1,43 @@
 from pydantic import BaseModel, EmailStr
 from typing import Optional
 
-# Σχήμα για δημιουργία αυτοκινήτου
+
+class UserCreate(BaseModel):
+    username: str
+    email: EmailStr
+    password: str
+    is_seller: bool
+
+
+class UserOut(BaseModel):
+    id: int
+    username: str
+    email: str
+    is_seller: bool
+
+    class Config:
+        orm_mode = True
+
+
 class CarCreate(BaseModel):
     make: str
     model: str
     year: int
     price: int
 
-# Σχήμα για επιστροφή αυτοκινήτου
-class CarOut(BaseModel):
+
+class CarOut(CarCreate):
     id: int
-    make: str
-    model: str
-    year: int
-    price: int
     owner_id: int
 
-    # Σχήμα για δημιουργία χρήστη
-class UserCreate(BaseModel):
-    username: str
-    email: EmailStr
-    password: str
-    is_seller: bool = False
+    class Config:
+        orm_mode = True
 
-# Σχήμα για επιστροφή χρήστη (χωρίς password)
-class UserOut(BaseModel):
-    id: int
-    username: str
-    email: EmailStr
-    is_seller: bool
 
 class Token(BaseModel):
     access_token: str
     token_type: str
 
+
 class TokenData(BaseModel):
     email: Optional[str] = None
-
-class Config:
-    from_attributes = True  # Χρήση ORM mode

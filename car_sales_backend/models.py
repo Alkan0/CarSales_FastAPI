@@ -2,7 +2,7 @@ from sqlalchemy import Column, Integer, String, Boolean, ForeignKey
 from sqlalchemy.orm import relationship
 from car_sales_backend.database import Base
 
-# Μοντέλο Χρήστη
+
 class User(Base):
     __tablename__ = "users"
 
@@ -14,15 +14,15 @@ class User(Base):
 
     cars = relationship("Car", back_populates="owner")
 
-# Μοντέλο Αυτοκινήτου
+
 class Car(Base):
     __tablename__ = "cars"
 
     id = Column(Integer, primary_key=True, index=True)
-    make = Column(String, index=True)   # Μάρκα (π.χ. Toyota)
-    model = Column(String, index=True)  # Μοντέλο (π.χ. Corolla)
-    year = Column(Integer)              # Έτος κατασκευής
-    price = Column(Integer)             # Τιμή πώλησης
-
+    make = Column(String, index=True)
+    model = Column(String, index=True)
+    year = Column(Integer)
+    price = Column(Integer)
     owner_id = Column(Integer, ForeignKey("users.id"))
+
     owner = relationship("User", back_populates="cars")
